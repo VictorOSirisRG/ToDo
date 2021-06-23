@@ -1,0 +1,47 @@
+<!-- mainly to fetch the http json data & setup this.todos -->
+<div *ngIf="(fetchData$ | async ); else errorFetch"></div>
+
+<!-- get the observable data and spread it on the page -->
+<ul *ngIf="(todos$ | async ) as todos; else loading">
+
+
+
+
+    <mat-selection-list *ngFor="let todo of todos; let i = index" #shoes>
+        <span [class.done]="todo.complete">
+            
+            <input type="checkbox"  [checked]="todo.complete"  (change)="onChange(todo.id)">
+            
+            <!--  bind [checked] to the state complete of todo
+ pass todo.id on(change) event,
+and run onChange function from the .ts file
+-->
+{{i + 1}} {{todo.title}}
+            </span>
+
+
+        <!-- use pipe date to format the data: you can see other pipes from API/datepipe on angular website -->
+        <button mat-button class="remove" (click)="removeTodo(todo.id)" color="white" mat-mini-fab aria-label="Example icon button with a delete icon">
+       
+          <mat-icon class="icon">delete</mat-icon>
+      </button>
+
+        <button button class="update" (click)="updateTodo(todo.id)" color="white" mat-mini-fab aria-label="Example icon button with a delete icon">
+        <mat-icon class="icon" >edit</mat-icon>
+      </button>
+
+
+
+
+    </mat-selection-list>
+
+
+
+
+
+
+
+</ul>
+
+<ng-template #loading> Loading, please wait ...</ng-template>
+<ng-template #errorFetch> There is an error while loading the data, please try again ...</ng-template>
